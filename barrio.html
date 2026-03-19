@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>La Barbería del Barrio — Cali, Colombia</title>
+<link rel="stylesheet" href="barrio.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Bebas+Neue&family=Dela+Gothic+One&family=Noto+Sans:wght@400;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<!-- ════ AMBIENT SOUNDS TOGGLE ════ -->
+<button class="sound-toggle" id="soundToggle" title="Activar ambiente">
+  <span id="soundIcon">🔇</span>
+</button>
+
+<!-- ════ LOADING ════ -->
+<div id="barrioLoader">
+  <div class="bl-inner">
+    <div class="bl-scissors">✂️</div>
+    <div class="bl-title">BARBERÍA DEL BARRIO</div>
+    <div class="bl-sub">Cali, Colombia — Desde 1987</div>
+    <div class="bl-bar-track"><div class="bl-bar" id="blBar"></div></div>
+    <div class="bl-msg" id="blMsg">Preparando la silla...</div>
+  </div>
+</div>
+
+<!-- ════ VENTILADOR DE TECHO (fixed, decorative) ════ -->
+<div class="ventilador" id="ventilador">
+  <div class="vent-hub"></div>
+  <div class="vent-paleta p1"></div>
+  <div class="vent-paleta p2"></div>
+  <div class="vent-paleta p3"></div>
+  <div class="vent-paleta p4"></div>
+  <div class="vent-center"></div>
+</div>
+
+<!-- ════ NAV — letrero pintado ════ -->
+<nav class="nav-barrio" id="navBarrio">
+  <div class="nb-logo">
+    <span class="nb-scissors">✂</span>
+    <div>
+      <span class="nb-name">BARBERÍA</span>
+      <span class="nb-sub">DEL BARRIO</span>
+    </div>
+  </div>
+  <div class="nb-links">
+    <a href="#fachada"   class="nb-link">Nosotros</a>
+    <a href="#servicios" class="nb-link">Servicios</a>
+    <a href="#galeria"   class="nb-link">Galería</a>
+    <a href="#ruleta"    class="nb-link">¿Qué me hago?</a>
+    <a href="#cita"      class="nb-link">Pedir Turno</a>
+  </div>
+  <div class="nb-right">
+    <div class="nb-open-sign" id="nbOpenSign">● ABIERTO</div>
+    <button class="nb-cta" onclick="document.getElementById('cita').scrollIntoView({behavior:'smooth'})">
+      PEDIR TURNO
+    </button>
+    <button class="nb-ham" id="nbHam"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+<div class="nb-mob" id="nbMob">
+  <a href="#fachada"   onclick="closeMob()">Nosotros</a>
+  <a href="#servicios" onclick="closeMob()">Servicios</a>
+  <a href="#galeria"   onclick="closeMob()">Galería</a>
+  <a href="#ruleta"    onclick="closeMob()">¿Qué me hago?</a>
+  <a href="#cita"      onclick="closeMob()">Pedir Turno</a>
+</div>
+
+<!-- ════════════════════════════════
+     SECCIÓN 1: FACHADA / HERO
+════════════════════════════════ -->
+<section class="section-fachada" id="fachada">
+  <!-- Baldosa tile background pattern -->
+  <div class="baldosa-bg"></div>
+
+  <!-- The shop wall -->
+  <div class="fachada-wall">
+
+    <!-- POSTER DE COLOMBIA 94 -->
+    <div class="wall-item poster-col94">
+      <img src="https://via.placeholder.com/120x160/003087/FFD700?text=🇨🇴+94" alt="" style="display:none"/>
+      <div class="pc94-inner">
+        <div class="pc94-flag">🇨🇴</div>
+        <div class="pc94-text">COLOMBIA<br/>MUNDIAL 94</div>
+        <div class="pc94-sub">CUARTOS DE FINAL</div>
+      </div>
+    </div>
+
+    <!-- RELOJ DE PARED -->
+    <div class="wall-item wall-clock" id="wallClock">
+      <div class="clock-face">
+        <div class="clock-hand hour"   id="hourHand"></div>
+        <div class="clock-hand minute" id="minuteHand"></div>
+        <div class="clock-hand second" id="secondHand"></div>
+        <div class="clock-center"></div>
+        <div class="clock-numbers">
+          <span style="--n:1">1</span><span style="--n:2">2</span>
+          <span style="--n:3">3</span><span style="--n:4">4</span>
+          <span style="--n:5">5</span><span style="--n:6">6</span>
+          <span style="--n:7">7</span><span style="--n:8">8</span>
+          <span style="--n:9">9</span><span style="--n:10">10</span>
+          <span style="--n:11">11</span><span style="--n:12">12</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RADIO TRANSISTOR -->
+    <div class="wall-item radio-transistor" id="radioTransistor">
+      <div class="radio-body">
+        <div class="radio-brand">SONY</div>
+        <div class="radio-display">
+          <div class="rd-freq" id="rdFreq">96.3 FM</div>
+          <div class="rd-station" id="rdStation">La Mega</div>
+        </div>
+        <div class="radio-dial">
+          <div class="radio-dial-track">
+            <div class="radio-dial-needle" id="radioNeedle"></div>
+          </div>
+        </div>
+        <div class="radio-btns">
+          <button class="rb-btn" onclick="changeStation(-1)">◄</button>
+          <button class="rb-btn" id="rbPlay" onclick="toggleRadio()">▶</button>
+          <button class="rb-btn" onclick="changeStation(1)">►</button>
+        </div>
+        <div class="radio-speaker">
+          <div class="rs-dot"></div><div class="rs-dot"></div><div class="rs-dot"></div>
+          <div class="rs-dot"></div><div class="rs-dot"></div><div class="rs-dot"></div>
+          <div class="rs-dot"></div><div class="rs-dot"></div><div class="rs-dot"></div>
+        </div>
+      </div>
+      <div class="radio-label">🎵 <span id="radioSong">Cambia la estación</span></div>
+    </div>
+
+    <!-- CALENDARIO TIPO PÓKER -->
+    <div class="wall-item calendario-poker" id="calendarioPoker">
+      <div class="cal-header">
+        <div class="cal-logo">🂡 PÓKER</div>
+        <div class="cal-year">2024</div>
+      </div>
+      <div class="cal-month" id="calMonth">NOVIEMBRE</div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+
+    <!-- ESPEJO GRANDE -->
+    <div class="wall-item espejo-grande">
+      <div class="eg-frame">
+        <div class="eg-mirror">
+          <div class="eg-shine"></div>
+          <div class="eg-reflection">
+            <div class="egr-chair">💈</div>
+            <div class="egr-text">Tu próximo look<br/>empieza aquí</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HÉROE TEXT sobre la pared -->
+    <div class="fachada-hero-text">
+      <div class="fht-eyebrow">✂ EST. 1987 · CALI, COLOMBIA</div>
+      <h1 class="fht-title">
+        <span class="fht-la">La</span>
+        <span class="fht-bar">Barbería</span>
+        <span class="fht-del">del</span>
+        <span class="fht-barrio">Barrio</span>
+      </h1>
+      <p class="fht-desc">
+        Más de 35 años cortando, perfilando y echando cuento.<br/>
+        La misma silla, el mismo olor a Brut, la misma calidad de siempre.<br/>
+        <em>Aquí te atendemos como si fueras de la familia.</em>
+      </p>
+      <div class="fht-stats">
+        <div class="fhts"><span class="fhts-n" data-target="37">0</span><span class="fhts-l">Años</span></div>
+        <div class="fhts-sep">·</div>
+        <div class="fhts"><span class="fhts-n" data-target="18000">0</span><span class="fhts-l">Cortes</span></div>
+        <div class="fhts-sep">·</div>
+        <div class="fhts"><span class="fhts-n" data-target="5">0</span><span class="fhts-l">Barberos</span></div>
+      </div>
+      <div class="fht-btns">
+        <button class="btn-barrio" onclick="document.getElementById('cita').scrollIntoView({behavior:'smooth'})">
+          ✂ Pedir Turno Ya
+        </button>
+        <button class="btn-ghost-barrio" onclick="openRuleta()">
+          🎰 ¿Qué me hago?
+        </button>
+      </div>
+    </div>
+
+    <!-- HORARIO en la pared -->
+    <div class="wall-item horario-pared">
+      <div class="hp-title">HORARIO</div>
+      <div class="hp-row"><span>Lun – Sáb</span><span>8AM – 8PM</span></div>
+      <div class="hp-row"><span>Domingo</span><span>9AM – 2PM</span></div>
+      <div class="hp-festivo">Festivos: consultar</div>
+    </div>
+
+    <!-- POLE GIRATORIA -->
+    <div class="wall-item barber-pole">
+      <div class="bp-top"></div>
+      <div class="bp-stripes">
+        <div class="bps-inner"></div>
+      </div>
+      <div class="bp-bottom"></div>
+    </div>
+
+  </div><!-- /fachada-wall -->
+</section>
+
+<!-- ════════════════════════════════
+     SECCIÓN 2: SERVICIOS
+     (fotos plastificadas en pared)
+════════════════════════════════ -->
+<section class="section-servicios" id="servicios">
+  <div class="section-tile-header">
+    <div class="sth-inner">
+      <span class="sth-scissors">✂</span>
+      <h2 class="sth-title">Nuestros Servicios</h2>
+      <span class="sth-price-badge">Precios de barrio</span>
+    </div>
+  </div>
+
+  <!-- Tablero estilo pizarrón de precio -->
+  <div class="pizarron-wrap">
+    <div class="pizarron" id="pizarron">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+
+  <!-- Filtros estilo botones de tienda -->
+  <div class="container">
+    <div class="tienda-filters" id="tiendaFilters"></div>
+    <!-- Fotos plastificadas -->
+    <div class="fotos-grid" id="fotosGrid"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     SECCIÓN 3: GALERÍA
+     (álbum de fotos del barrio)
+════════════════════════════════ -->
+<section class="section-galeria" id="galeria">
+  <div class="container">
+    <div class="album-header">
+      <div class="ah-tape"></div>
+      <h2 class="ah-title">El Álbum del Barrio</h2>
+      <div class="ah-tape"></div>
+    </div>
+    <div class="album-grid" id="albumGrid"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     SECCIÓN 4: CHAT CON DON JORGE
+════════════════════════════════ -->
+<section class="section-chat" id="chatDonJorge">
+  <div class="container">
+    <div class="chat-layout">
+      <div class="don-jorge-avatar">
+        <div class="dja-photo">
+          <div class="dja-face">
+            <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg" class="dja-svg">
+              <!-- Body/uniform -->
+              <rect x="20" y="95" width="80" height="45" rx="8" fill="#2a5a3a"/>
+              <rect x="48" y="95" width="24" height="45" fill="#1a4a2a"/>
+              <!-- Head -->
+              <ellipse cx="60" cy="72" rx="34" ry="36" fill="#8B6914"/>
+              <!-- Hair -->
+              <path d="M26 62 C24 42 34 26 60 24 C86 26 96 42 94 62 C90 48 80 40 60 40 C40 40 30 48 26 62Z" fill="#1a1208"/>
+              <!-- Face features -->
+              <ellipse cx="48" cy="68" rx="6" ry="5" fill="#1a1208"/>
+              <ellipse cx="72" cy="68" rx="6" ry="5" fill="#1a1208"/>
+              <circle cx="49" cy="67" r="2" fill="#4a3a00"/>
+              <circle cx="73" cy="67" r="2" fill="#4a3a00"/>
+              <!-- Mustache -->
+              <path d="M48 82 Q60 88 72 82" fill="none" stroke="#1a1208" stroke-width="3" stroke-linecap="round"/>
+              <!-- Ears -->
+              <ellipse cx="26" cy="72" rx="5" ry="7" fill="#7a5a10"/>
+              <ellipse cx="94" cy="72" rx="5" ry="7" fill="#7a5a10"/>
+              <!-- Scissors in hand -->
+              <text x="85" y="125" font-size="18" fill="white" opacity="0.9">✂</text>
+              <!-- Collar detail -->
+              <path d="M42 95 L60 105 L78 95" fill="none" stroke="#4a8a5a" stroke-width="2"/>
+            </svg>
+          </div>
+        </div>
+        <div class="dja-name">Don Jorge</div>
+        <div class="dja-sub">35 años con las tijeras</div>
+        <div class="dja-status">🟢 En línea</div>
+      </div>
+      <div class="chat-window">
+        <div class="cw-header">
+          <span>Chat con <strong>Don Jorge</strong></span>
+          <span class="cwh-typing" id="cwTyping" style="display:none">✍️ escribiendo...</span>
+        </div>
+        <div class="cw-messages" id="cwMessages"></div>
+        <div class="cw-quick-replies" id="cwQuickReplies"></div>
+        <div class="cw-input-row">
+          <input type="text" id="cwInput" class="cw-input" placeholder="Escríbele a Don Jorge..." onkeydown="if(event.key==='Enter')sendChat()"/>
+          <button class="cw-send" onclick="sendChat()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     SECCIÓN 5: RULETA
+════════════════════════════════ -->
+<section class="section-ruleta" id="ruleta">
+  <div class="container">
+    <div class="section-tile-header" style="margin-bottom:0">
+      <div class="sth-inner">
+        <span>🎰</span>
+        <h2 class="sth-title">¿No sabe qué hacerse?</h2>
+        <span class="sth-price-badge">¡La ruleta decide!</span>
+      </div>
+    </div>
+    <p class="ruleta-desc">Gire la ruleta y el destino le dirá qué corte necesita hoy, parce.</p>
+    <div class="ruleta-layout">
+      <div class="ruleta-wrap">
+        <div class="ruleta-arrow">▼</div>
+        <canvas id="ruletaCanvas" width="340" height="340" class="ruleta-canvas"></canvas>
+        <button class="btn-barrio ruleta-btn" id="ruletaBtn" onclick="spinRuleta()">
+          🎰 ¡GIRAR!
+        </button>
+      </div>
+      <div class="ruleta-result" id="ruletaResult" style="display:none">
+        <div class="rr-title">🎉 ¡El barrio habló!</div>
+        <div class="rr-service" id="rrService">—</div>
+        <div class="rr-price"  id="rrPrice">—</div>
+        <div class="rr-desc"   id="rrDesc">—</div>
+        <button class="btn-barrio" onclick="document.getElementById('cita').scrollIntoView({behavior:'smooth'})">
+          ✂ ¡Me lo hago!
+        </button>
+        <button class="btn-ghost-barrio" onclick="spinRuleta()">🎰 Girar de nuevo</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     SECCIÓN 6: PEDIR TURNO
+     (Factura de papel carbón)
+════════════════════════════════ -->
+<section class="section-cita" id="cita">
+  <div class="container">
+    <div class="seccion-titulo-cita">
+      <h2>Pedir Turno</h2>
+      <span>Como siempre se ha hecho: con respeto y puntualidad</span>
+    </div>
+
+    <div class="cita-layout">
+      <!-- La factura -->
+      <div class="factura-wrap">
+        <div class="factura">
+          <!-- Cabezote de factura -->
+          <div class="factura-header">
+            <div class="fh-logo">✂</div>
+            <div class="fh-info">
+              <div class="fhi-name">BARBERÍA DEL BARRIO</div>
+              <div class="fhi-nit">NIT: 987.654.321-0</div>
+              <div class="fhi-dir">Cra 8 #15-42 · San Nicolás · Cali</div>
+            </div>
+            <div class="fh-num">
+              <div class="fhn-label">TURNO Nº</div>
+              <div class="fhn-num" id="fhnNum">0001</div>
+            </div>
+          </div>
+
+          <div class="factura-linea"></div>
+
+          <!-- PASO 1: Barbero -->
+          <div class="factura-paso active" id="fp1">
+            <div class="fp-titulo">1. ¿Con quién le vamos a atender?</div>
+            <div class="barbero-pick" id="barberoPick"></div>
+          </div>
+
+          <!-- PASO 2: Servicio -->
+          <div class="factura-paso" id="fp2">
+            <div class="fp-titulo">2. ¿Qué se va a hacer?</div>
+            <div class="servicio-pick" id="servicioPick"></div>
+            <button class="factura-back" onclick="goPaso(1)">← Atrás</button>
+          </div>
+
+          <!-- PASO 3: Fecha y hora -->
+          <div class="factura-paso" id="fp3">
+            <div class="fp-titulo">3. ¿Para cuándo?</div>
+            <input type="date" id="citaFecha" class="barrio-input" style="margin-bottom:12px"/>
+            <div class="horarios-grid" id="horariosGrid">
+              <p class="barrio-hint">Seleccione una fecha, pues...</p>
+            </div>
+            <button class="factura-back" onclick="goPaso(2)">← Atrás</button>
+          </div>
+
+          <!-- PASO 4: Datos + pago -->
+          <div class="factura-paso" id="fp4">
+            <div class="fp-titulo">4. Sus datos, por favor</div>
+            <div class="datos-grid">
+              <div class="dg-field">
+                <label>Nombre completo</label>
+                <input type="text"  id="citaNombre"    placeholder="¿Cómo lo llamamos?" class="barrio-input"/>
+              </div>
+              <div class="dg-field">
+                <label>Teléfono / WhatsApp</label>
+                <input type="tel"   id="citaTelefono"  placeholder="3XX XXX XXXX"       class="barrio-input"/>
+              </div>
+              <div class="dg-field">
+                <label>Correo (opcional)</label>
+                <input type="email" id="citaCorreo"    placeholder="Para recordatorio"   class="barrio-input"/>
+              </div>
+              <div class="dg-field">
+                <label>¿Alguna petición?</label>
+                <textarea id="citaNota" placeholder="Cuéntenos qué quiere..." class="barrio-input" rows="2"></textarea>
+              </div>
+            </div>
+
+            <!-- FORMA DE PAGO — estilo factura real -->
+            <div class="pago-factura">
+              <div class="pf-titulo">FORMA DE PAGO:</div>
+              <div class="pf-opciones">
+                <label class="pf-opt" onclick="selPago('efectivo',this)">
+                  <input type="radio" name="pago" value="efectivo"/>
+                  <span class="pfo-check" id="pfc-efectivo"></span>
+                  <span class="pfo-icon">💵</span>
+                  <div>
+                    <span class="pfo-name">Efectivo</span>
+                    <span class="pfo-sub">Al llegar al local</span>
+                  </div>
+                </label>
+                <label class="pf-opt" onclick="selPago('nequi',this)">
+                  <input type="radio" name="pago" value="nequi"/>
+                  <span class="pfo-check" id="pfc-nequi"></span>
+                  <span class="pfo-icon">
+                    <svg width="26" height="26" viewBox="0 0 26 26"><rect width="26" height="26" rx="6" fill="#6C0CE0"/><text x="13" y="19" text-anchor="middle" font-family="Arial Black" font-size="11" font-weight="900" fill="white">N</text></svg>
+                  </span>
+                  <div>
+                    <span class="pfo-name">Nequi</span>
+                    <span class="pfo-sub">315 234 5678</span>
+                  </div>
+                </label>
+                <label class="pf-opt" onclick="selPago('daviplata',this)">
+                  <input type="radio" name="pago" value="daviplata"/>
+                  <span class="pfo-check" id="pfc-daviplata"></span>
+                  <span class="pfo-icon">
+                    <svg width="26" height="26" viewBox="0 0 26 26"><rect width="26" height="26" rx="6" fill="#E30613"/><text x="13" y="18" text-anchor="middle" font-family="Arial Black" font-size="9" font-weight="900" fill="white">DV</text></svg>
+                  </span>
+                  <div>
+                    <span class="pfo-name">Daviplata</span>
+                    <span class="pfo-sub">315 234 5678</span>
+                  </div>
+                </label>
+                <label class="pf-opt" onclick="selPago('transfer',this)">
+                  <input type="radio" name="pago" value="transfer"/>
+                  <span class="pfo-check" id="pfc-transfer"></span>
+                  <span class="pfo-icon">🏦</span>
+                  <div>
+                    <span class="pfo-name">Transferencia</span>
+                    <span class="pfo-sub">PSE / Bancolombia</span>
+                  </div>
+                </label>
+              </div>
+              <!-- Número copiable Nequi/Davi -->
+              <div class="pf-copy-row" id="pfCopyRow" style="display:none">
+                <span id="pfCopyLabel">Número Nequi:</span>
+                <strong>315 234 5678</strong>
+                <button onclick="copyPago()">📋 Copiar</button>
+              </div>
+              <div class="pf-msg" id="pfMsg"></div>
+            </div>
+
+            <button class="btn-barrio full-barrio" onclick="confirmarCita()">
+              ✂ Confirmar Turno
+            </button>
+            <button class="factura-back" onclick="goPaso(3)">← Atrás</button>
+          </div>
+
+          <!-- Pie de factura -->
+          <div class="factura-pie">
+            <div class="fp-line fp-total" id="fpTotal" style="display:none">
+              <span>TOTAL A PAGAR:</span><strong id="fpTotalVal">—</strong>
+            </div>
+            <div class="fp-firma">
+              Firma: <span class="fp-firma-line">Don Jorge Barbería</span>
+            </div>
+            <div class="fp-nota">* Los turnos se reservan con 24h de anticipación mínima.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel lateral: El tablero de turnos -->
+      <div class="tablero-turnos">
+        <div class="tt-header">📋 SU TURNO</div>
+        <div class="tt-data">
+          <div class="ttd"><span>BARBERO</span><strong id="tt-barbero">—</strong></div>
+          <div class="ttd"><span>SERVICIO</span><strong id="tt-servicio">—</strong></div>
+          <div class="ttd"><span>PRECIO</span><strong id="tt-precio">—</strong></div>
+          <div class="ttd"><span>FECHA</span><strong id="tt-fecha">—</strong></div>
+          <div class="ttd"><span>HORA</span><strong id="tt-hora">—</strong></div>
+          <div class="ttd"><span>PAGO</span><strong id="tt-pago">—</strong></div>
+        </div>
+        <div class="tt-horario">
+          <div class="tth-title">⏰ HORARIO</div>
+          <div class="tth-row"><span>Lun – Sáb</span><span>8AM – 8PM</span></div>
+          <div class="tth-row"><span>Domingo</span><span>9AM – 2PM</span></div>
+        </div>
+        <div class="tt-addr">📍 Cra 8 #15-42, San Nicolás · Cali</div>
+        <a class="tt-wa" href="https://wa.me/573152345678" target="_blank">
+          <i class="fab fa-whatsapp"></i> WhatsApp Don Jorge
+        </a>
+        <!-- Fundadores -->
+        <div class="tt-fundadores">
+          <div class="ttf-title">LOS DUEÑOS</div>
+          <div class="ttf-row">
+            <div class="ttfr-av">JJ</div>
+            <div><strong>Jhon Jairo Parra</strong><span>Fundador · 20 años</span></div>
+          </div>
+          <div class="ttf-row">
+            <div class="ttfr-av" style="background:#8b1a1a">SB</div>
+            <div><strong>Sebastián Banguera</strong><span>Socio · 15 años</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL TURNO CONFIRMADO -->
+<div class="modal-barrio" id="modalTurno">
+  <div class="mb-box">
+    <div class="mb-header">✂ ¡LISTO PUES! ✂</div>
+    <div class="mb-body">
+      <div class="mb-check">✓</div>
+      <h3>Turno Confirmado</h3>
+      <div class="mb-ticket" id="mbTicket"></div>
+      <button class="btn-barrio" onclick="cerrarModal()">¡Hasta pronto!</button>
+    </div>
+  </div>
+  <div class="mb-bg" onclick="cerrarModal()"></div>
+</div>
+
+<!-- MODAL RULETA -->
+<div class="modal-barrio" id="modalRuleta">
+  <div class="mb-box" style="max-width:460px">
+    <div class="mb-header">🎰 LA RULETA DEL BARRIO</div>
+    <div class="mb-body" style="padding:24px">
+      <p style="margin-bottom:20px;font-family:'Kalam',cursive;font-size:1rem;color:#3a2810">
+        ¿No sabe qué hacerse? ¡Dele a girar y el barrio decide, parce!
+      </p>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:16px">
+        <div class="ruleta-arrow" style="font-size:1.5rem">▼</div>
+        <canvas id="ruletaCanvas2" width="300" height="300" class="ruleta-canvas"></canvas>
+        <button class="btn-barrio" id="ruletaBtn2" onclick="spinRuleta2()">🎰 ¡GIRAR!</button>
+      </div>
+      <div class="rr2-result" id="rr2Result" style="display:none;margin-top:16px;text-align:center">
+        <div class="rr-title">🎉 ¡El barrio decidió!</div>
+        <div class="rr-service" id="rr2Service">—</div>
+        <div class="rr-price"  id="rr2Price">—</div>
+        <button class="btn-barrio" style="margin-top:12px" onclick="document.getElementById('modalRuleta').classList.remove('open');document.getElementById('cita').scrollIntoView({behavior:'smooth'})">
+          ✂ ¡Ese me lo hago!
+        </button>
+      </div>
+    </div>
+    <button class="mb-close" onclick="document.getElementById('modalRuleta').classList.remove('open')">✕ Cerrar</button>
+  </div>
+  <div class="mb-bg" onclick="document.getElementById('modalRuleta').classList.remove('open')"></div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-barrio">
+  <div class="fb-inner">
+    <div class="fb-brand">
+      <span class="fb-scissors">✂</span>
+      <div>
+        <div class="fb-name">BARBERÍA DEL BARRIO</div>
+        <div class="fb-sub">Cali, Colombia · Est. 1987</div>
+      </div>
+    </div>
+    <p class="fb-quote">
+      "Aquí no hay citas por app, ni café gourmet, ni música de fondo.<br/>
+      Solo tijeras buenas, conversación de barrio y el mejor corte de su vida."<br/>
+      <em>— Don Jorge</em>
+    </p>
+    <div class="fb-social">
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-tiktok"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+    </div>
+    <div class="fb-bottom">
+      © 2024 Barbería del Barrio · Cali, Valle del Cauca, Colombia 🇨🇴<br/>
+      <span style="font-size:0.7rem;opacity:0.6">Hecho con amor en el barrio</span>
+    </div>
+  </div>
+</footer>
+
+<script src="barrio.js"></script>
+</body>
+</html>
